@@ -2,6 +2,7 @@
 using Paystack.NetCore.SDK.Interfaces;
 using Paystack.NetCore.SDK.Transfers;
 using Paystack.NetCore.SDK.Charges;
+using DemoPaymentService.Models.Paystack;
 
 namespace DemoPaymentService.Services
 {
@@ -12,6 +13,13 @@ namespace DemoPaymentService.Services
         public PaymentService(IConfiguration configuration)
         {
             _configuration = configuration;
+        }
+
+        public async Task<PaystackBankRes> GetBankResAsync(string Country)
+        {
+            PaystackBankRes paystackBankRes = new();
+
+            return paystackBankRes;
         }
 
         public async Task<PaymentResponse> BillDebitCard(PaymentDTO payment)

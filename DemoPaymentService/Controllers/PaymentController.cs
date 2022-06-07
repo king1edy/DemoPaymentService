@@ -1,4 +1,5 @@
 ﻿using DemoPaymentService.Models;
+using DemoPaymentService.Models.Paystack;
 using DemoPaymentService.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +18,20 @@ namespace DemoPaymentService.Controllers
             _paymentService = paymentService;
         }
 
+        [HttpGet("GetBanks")]
+        public async Task<PaystackBankRes> GetBanks(string country)
+        {
+            PaystackBankRes paystackBankRes = new();
+
+            return paystackBankRes;
+        }
+
         /// <summary>
         /// Bill Debit card of customer
         /// </summary>
         /// <param name="payment"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("BillCardPayment")]
         public async Task<PaymentResponse> BillCardPaymentAsync(PaymentDTO payment)
         {
             PaymentResponse paymentResponse = new();
@@ -47,13 +56,28 @@ namespace DemoPaymentService.Controllers
             {
                 _logger.LogError(ex, ex.Message);
             }
+
             return paymentResponse;
         }
 
-        [HttpPost]
-        public async Task<PaymentResponse> CreditBankAccount(PaymentDTO paymentD)
+        /// <summary>
+        /// Credit bank account with paystack...
+        /// </summary>
+        /// <param name="paymentObj"></param>
+        /// <returns></returns>
+        [HttpPost("CreditBankAccountAsync")]
+        public async Task<PaymentResponse> CreditBankAccountAsync(PaymentDTO paymentObj)
         {
-            PaymentResponse paymentResponse = new PaymentResponse();
+            PaymentResponse paymentResponse = new();
+
+            try
+            {
+                paymentResponse = await _paymentService.CreditBankAccount(paymentObj);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
 
             return paymentResponse;
         }
