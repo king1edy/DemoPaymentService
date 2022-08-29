@@ -11,11 +11,12 @@ namespace DemoPaymentService.Models.Paystack
         public string Message { get; set; }
 
         [JsonProperty("data")]
-        public Datum[] Data { get; set; }
+        public List<Datum> Data { get; set; }
 
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
     }
+
     public partial class Datum
     {
         [JsonProperty("name")]
@@ -25,14 +26,13 @@ namespace DemoPaymentService.Models.Paystack
         public string Slug { get; set; }
 
         [JsonProperty("code")]
-        [JsonConverter(typeof(Converter.ParseStringConverter))]
-        public long Code { get; set; }
+        public string Code { get; set; }
 
         [JsonProperty("longcode")]
         public string Longcode { get; set; }
 
         [JsonProperty("gateway")]
-        public object Gateway { get; set; }
+        public Gateway? Gateway { get; set; }
 
         [JsonProperty("pay_with_bank")]
         public bool PayWithBank { get; set; }
@@ -41,16 +41,16 @@ namespace DemoPaymentService.Models.Paystack
         public bool Active { get; set; }
 
         [JsonProperty("is_deleted")]
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
 
         [JsonProperty("country")]
-        public string Country { get; set; }
+        public Country Country { get; set; }
 
         [JsonProperty("currency")]
-        public string Currency { get; set; }
+        public Currency Currency { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public TypeEnum Type { get; set; }
 
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -62,17 +62,13 @@ namespace DemoPaymentService.Models.Paystack
         public DateTimeOffset UpdatedAt { get; set; }
     }
 
-    public partial class Meta
-    {
-        [JsonProperty("next")]
-        public string Next { get; set; }
+    public enum Country { Nigeria };
 
-        [JsonProperty("previous")]
-        public object Previous { get; set; }
+    public enum Currency { Ngn };
 
-        [JsonProperty("perPage")]
-        public long PerPage { get; set; }
-    }
+    public enum Gateway { Digitalbankmandate, Emandate, Empty, Ibank };
+
+    public enum TypeEnum { Empty, Nuban };
 
     public partial class PaystackBankRes
     {

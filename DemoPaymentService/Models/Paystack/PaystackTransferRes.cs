@@ -12,7 +12,7 @@ namespace DemoPaymentService.Models.Paystack
         public string Message { get; set; }
 
         [JsonProperty("data")]
-        public Data Data { get; set; }
+        public object Data { get; set; }
     }
 
     public partial class PaystackTransferRes
